@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charSet="utf-8"/>
+        <title>Quizz</title>
+        <link rel="stylesheet" href="css/quiz.css" />
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/local_state.js"></script>
+        <script type="text/javascript" src="js/server.js"></script>
+        <script type="text/javascript" src="js/index_manager.js"></script>
+        <script type="text/javascript">
+            function onLoad() {
+                window.pageManager = new IndexPageManager();
+                window.pageManager.initialize();
+            }
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <p>
+            <span>Your username is</span>
+            &nbsp;&nbsp;&nbsp;
+            <input type="text" id="user-name" />
+        </p>
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab-button">Join a quiz</button>
+                <button class="tab-button">Start a quiz</button>
+            </div>
+            <div class="tab-content">
+                <div id="tab-join" class="tab-panel">
+                    <h2>Enter the quiz's code here</h2>
+                    # <input type="text" id="quiz-code">
+                    &nbsp;&nbsp;&nbsp;
+                    <button id="btn-join">Join</button>
+                </div>
+                <div id="tab-start" class="tab-panel">
+                    <h2>Select the quiz to start</h2>
+                    <br/>
+                    <div id="quiz-topics">
+                    </div>
+                    <br/>
+                    <div>
+                        <span>... and the interval between questions &nbsp;</span>
+                        <input id="quiz-interval-seconds" type="text" value="10" /> <span>&nbsp; seconds</span>
+                    </div>
+                    <button id="btn-start">Start the quiz</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charSet="utf-8"/>
+        <title>Quizz Round</title>
+        <link rel="stylesheet" href="css/quiz.css" />
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/local_state.js"></script>
+        <script type="text/javascript" src="js/server.js"></script>
+        <script type="text/javascript" src="js/quiz_timer.js"></script>
+        <script type="text/javascript" src="js/quiz_answer.js"></script>
+        <script type="text/javascript" src="js/round_manager.js"></script>
+        <script type="text/javascript">
+            function onLoad() {
+                window.pageManager = new RoundPageManager();
+                window.pageManager.initialize();
+            }
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <div class="round-header-container">
+              <div class="round-header-column">
+                  <span>Your username is</span>
+                  &nbsp;&nbsp;&nbsp;
+                  <input type="text" id="user-name" disabled="disabled" />
+              </div>
+              <div class="round-header-column">
+                  <span id="quiz-status-text">Quiz</span>
+              </div>
+              <div id="start-quiz-panel" class="round-header-column">
+                  <button id="btn-start-quiz">Start the quiz</button>
+              </div>
+              <div id="timer-panel" class="round-header-column">
+              </div>
+        </div>
+        <div class="round-container">
+          <div class="round-column-players">
+            <h2>Players</h2>
+            <div id="quiz-players" class="players-container">
+            </div>
+          </div>
+          <div class="round-column-questions">
+            <h2>Round</h2>
+            <div id="quiz-round-status">
+                <div id="round-question" style="display:none">
+                    <div id="round-question-number">
+                    </div>
+                    <div id="round-question-img-container">
+                        <img src="" />
+                    </div>
+                    <div id="round-question-text-container">
+                    </div>
+                    <div id="round-question-questions-container">
+                    </div>
+                    <div>
+                        <button id="btn-post-answer">Answer</button>
+                    </div>
+                </div>
+            </div>
+            <div id="quiz-results" style="display:none">
+                <div id="quiz-results-title"></div>
+                <div id="quiz-results-players"></div>
+                <div id="quiz-results-answers"></div>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

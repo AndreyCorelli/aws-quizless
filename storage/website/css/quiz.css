@@ -1,0 +1,85 @@
+.tab-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  background-color: #ddd;
+}
+
+.tab-button {
+  background-color: transparent;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.tab-button:hover {
+  background-color: #bbb;
+}
+
+.tab-button.active {
+  background-color: #fff;
+  border-bottom: 2px solid #444;
+}
+
+.tab-content {
+  flex-grow: 1;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.topics-radio-group {
+  display: block;
+}
+
+.round-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.round-column-players {
+  width: 200px;
+}
+
+.round-column-questions {
+  flex-grow: 1;
+}
+
+.round-header-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.round-header-column {
+  width: 24%;
+  float: left;
+  padding: 5px;
+}
+
+div.players-container {
+  display: flex;
+  flex-direction: column;
+}
+
+div.round-question div {
+  padding: 8px;
+}
+
+#quiz-results-title {
+  padding: 12px;
+}
+
+#quiz-results-players {
+  padding: 12px;
+}
