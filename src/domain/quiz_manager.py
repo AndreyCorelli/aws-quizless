@@ -3,22 +3,28 @@ import random
 import uuid
 from typing import List, Tuple, Optional
 
-from src.domain.constants import QuizConstants
-from src.domain.quiz_data import QuizData
-from src.domain.quiz_requests import QuizStartRequest, QuizJoinRequest, ScheduleQuizRequest, QuizStatusRequest, \
+from domain.constants import QuizConstants
+from domain.quiz_data import QuizData
+from domain.quiz_requests import QuizStartRequest, QuizJoinRequest, ScheduleQuizRequest, QuizStatusRequest, \
     StoreAnswerRequest
-from src.domain.quiz_state import UserQuizState, QuizState, QuizStatusCode, QuizPlayer, QuizUserRole, QuizPlayers, \
-    QuizPlayerAnswer, QuizResults
-from src.domain.quiz_state_update_manager import QuizStateUpdateManager
-from src.domain.quiz_topic import QuizTopic
-from src.domain.repository.quiz_metadata_repository import QuizMetadataRepository
-from src.domain.repository.quiz_state_repository import QuizStateRepository
-from src.utils import get_utc_now_time
+from domain.quiz_state import UserQuizState, QuizState, QuizStatusCode, QuizPlayer, QuizUserRole, QuizPlayers, \
+    QuizPlayerAnswer, QuizResults, QuizResultsAndData
+from domain.quiz_state_update_manager import QuizStateUpdateManager
+from domain.quiz_topic import QuizTopic
+from domain.repository.local_quiz_metadata_repository import LocalQuizMetadataRepository
+from domain.repository.quiz_state_repository import QuizStateRepository
+from domain.repository.s3_quiz_metadata_repository import S3QuizMetadataRepository
+from settings import settings
+from utils import get_utc_now_time
 
 
 class QuizManager:
     def __init__(self):
-        self._quizes: List[QuizData] = QuizMetadataRepository().read_quizes()
+        if settings.storage_type == "s3":
+            meta_repo = S3QuizMetadataRepository()
+        else:
+            meta_repo = LocalQuizMetadataRepository()
+        self._quizes: List[QuizData] = meta_repo.read_quizes()
         self._state_repo = QuizStateRepository()
         self._state_update_manager = QuizStateUpdateManager(self._state_repo, self._quizes)
 
@@ -30,8 +36,9 @@ class QuizManager:
     def start_quiz(self, request_data: QuizStartRequest) -> UserQuizState:
         quizes = [q for q in self._quizes if q.id == request_data.topic_id]
         if not quizes:
-            raise Exception(f"Quiz #{request_data.topic_id} wasn't found out ouf "
-                            f"{self._quizes} quizes")
+            raise Exception(f"Quiz #{request_data.topic_id} wasn't found out ouf " +
+                            ", ".join([q.id for q in self._quizes]) +
+                            " quizes")
         quiz = quizes[0]
         expires_at = get_utc_now_time() + datetime.timedelta(
             seconds=QuizConstants.PENDING_QUIZ_EXPIRATION_SECONDS)
@@ -160,12 +167,12 @@ class QuizManager:
         )
         return quiz_user_data
 
-    def get_quiz_results(self, quiz_code: int) -> Optional[Tuple[QuizResults, QuizData]]:
+    def get_quiz_results(self, quiz_code: int) -> Optional[QuizResultsAndData]:
         results = self._state_repo.read_quiz_results(quiz_code)
         if not results:
             return None
         quiz_data = [q for q in self._quizes if q.id == results.quiz_id][0]
-        return results, quiz_data
+        return QuizResultsAndData(quiz_results=results, quiz_data=quiz_data)
 
 
 quiz_manager = QuizManager()

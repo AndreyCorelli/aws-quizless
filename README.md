@@ -48,3 +48,26 @@ curl -iX 'POST' 'http://localhost:8055/api/quiz-check-status' \
   -H "Content-Type: application/json" \
   -d '{"quiz_code": 68571, "user_token": "07d76bbd-51f6-4b7f-9d7a-59a6287c0a36"}'
 ```
+
+## Test Lambda
+
+... with this JSON:
+```json
+[{
+  "body": "{\"requested_operation\":\"quiz-topics\"}"
+}
+,
+{
+  "body": "{\"requested_operation\":\"quiz-start\", \"payload\": {\"topic_id\": \"73b445cc-34c6-482d-bf44-0db2f3a06e05\", \"user_name\": \"Alph\"}}"
+}]
+```
+
+```json
+{
+ "requested_operation":"quiz-topics"
+}
+{
+  "requested_operation":"quiz-start", 
+  "payload": {"topic_id": "73b445cc-34c6-482d-bf44-0db2f3a06e05", "user_name": "Alph"}
+}
+```

@@ -3,7 +3,7 @@ from typing import Tuple
 from httpx import AsyncClient
 
 from main import app
-from src.domain.quiz_requests import QuizStartRequest
+from domain.quiz_requests import QuizStartRequest
 
 TEST_BASE_URL = "http://test"
 HEADER_JSON_CONTENT_TYPE = {"Content-Type": "application/json"}

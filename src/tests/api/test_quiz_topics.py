@@ -1,5 +1,5 @@
 import pytest
-from src.tests.api.api_test_client import responses_client
+from tests.api.api_test_client import responses_client
 
 
 @pytest.mark.asyncio

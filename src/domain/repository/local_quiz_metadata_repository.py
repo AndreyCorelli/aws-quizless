@@ -1,11 +1,12 @@
 import os
 from typing import List
 
-from src.domain.quiz_data import QuizData
-from src.settings import settings
+from domain.quiz_data import QuizData
+from domain.repository.base_quiz_metadata_repository import BaseQuizMetadataRepository
+from settings import settings
 
 
-class QuizMetadataRepository:
+class LocalQuizMetadataRepository(BaseQuizMetadataRepository):
     def read_quizes(self) -> List[QuizData]:
         quizes: List[QuizData] = []
         quiz_path = settings.quiz_path

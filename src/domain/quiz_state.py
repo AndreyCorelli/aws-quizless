@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Optional, Tuple, List
 from dataclasses_json import dataclass_json
 
-from src.domain.quiz_data import QuizQuestion
+from domain.quiz_data import QuizQuestion, QuizData
 
 
 class QuizStatusCode(enum.Enum):
@@ -81,3 +81,10 @@ class QuizResults:
     quiz_name: str
     started_at: datetime
     players: List[QuizResultsPlayer]
+
+
+@dataclass_json
+@dataclass
+class QuizResultsAndData:
+    quiz_results: QuizResults
+    quiz_data: QuizData

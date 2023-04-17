@@ -1,6 +1,6 @@
 class Server {
     constructor() {
-        this.baseUrl = 'http://localhost:8055/api/';
+        this.baseUrl = "https://wi4tgcnh0j.execute-api.eu-central-1.amazonaws.com/prod/quiz/";
     }
 
     async checkStatus(response) {
@@ -18,9 +18,19 @@ class Server {
         }
     }
 
-    getQuizTopics(onCompleted) {
-        const url = this.baseUrl + 'quiz-topics'
-        fetch(url)
+    queryServer(operation, payload, onCompleted) {
+        const requestPayload = {
+          "requested_operation": operation,
+          "payload": payload
+        };
+        fetch(this.baseUrl, {
+                method: 'POST',
+                body: JSON.stringify(requestPayload),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
             .then(this.checkStatus)
             .then(data => {
                 onCompleted(data);
@@ -28,120 +38,40 @@ class Server {
             .catch(error => {
                 this.processErrorInResponse(error);
             });
+    }
+
+    getQuizTopics(onCompleted) {
+        this.queryServer("quiz-topics", {}, onCompleted);
     }
 
     startQuiz(quizId, userName, intervalSeconds, onCompleted) {
-        const url = this.baseUrl + 'quiz-start'
-        fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(
-                    {"topic_id": quizId, "user_name": userName, "question_seconds": intervalSeconds}),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(this.checkStatus)
-            .then(data => {
-                onCompleted(data);
-            })
-            .catch(error => {
-                this.processErrorInResponse(error);
-            });
+        this.queryServer("quiz-start", {
+            "topic_id": quizId, "user_name": userName, "question_seconds": intervalSeconds},
+            onCompleted);
     }
 
     scheduleQuiz(quizCode, userToken, delaySeconds, onCompleted) {
-        const url = this.baseUrl + 'quiz-schedule'
-        fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(
-                    {"quiz_code": quizCode, "user_token": userToken, "delay_seconds": delaySeconds}
-                ),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(this.checkStatus)
-            .then(data => {
-                onCompleted(data);
-            })
-            .catch(error => {
-                this.processErrorInResponse(error);
-            });
+        this.queryServer("quiz-schedule", {
+            "quiz_code": quizCode, "user_token": userToken, "delay_seconds": delaySeconds},
+            onCompleted);
     }
 
     joinQuiz(quizCode, userName, onCompleted) {
-        const url = this.baseUrl + 'quiz-join';
-        fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({"quiz_code": parseInt(quizCode), "user_name": userName}),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(this.checkStatus)
-            .then(data => {
-                onCompleted(data);
-            })
-            .catch(error => {
-                this.processErrorInResponse(error);
-            });
+        this.queryServer("quiz-join", {"quiz_code": parseInt(quizCode), "user_name": userName},
+            onCompleted);
     }
 
     postAnswer(quizCode, userToken, questionIndex, answer, onCompleted) {
-        const url = this.baseUrl + 'quiz-answer'
-        fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(
-                    {"quiz_code": quizCode, "user_token": userToken,
-                     "question_index": questionIndex, "answer": answer}
-                ),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(this.checkStatus)
-            .then(data => {
-                onCompleted(data);
-            })
-            .catch(error => {
-                this.processErrorInResponse(error);
-            });
+        this.queryServer("quiz-answer", {"quiz_code": quizCode, "user_token": userToken,
+                     "question_index": questionIndex, "answer": answer},
+            onCompleted);
     }
 
     getQuizResults(quizCode, onCompleted) {
-        const url = this.baseUrl + `quiz-results/${quizCode}`
-        fetch(url)
-            .then(this.checkStatus)
-            .then(data => {
-                onCompleted(data);
-            })
-            .catch(error => {
-                this.processErrorInResponse(error);
-            });
+        this.queryServer("quiz-results", {"quiz_code": quizCode}, onCompleted);
     }
 
     checkQuizStatus(quizCode, userToken, onCompleted) {
-        const url = this.baseUrl + 'quiz-check-status'
-        fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(
-                    {"quiz_code": quizCode, "user_token": userToken}
-                ),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(this.checkStatus)
-            .then(data => {
-                onCompleted(data);
-            })
-            .catch(error => {
-                this.processErrorInResponse(error);
-            });
+        this.queryServer("quiz-check-status", {"quiz_code": quizCode, "user_token": userToken}, onCompleted);
     }
 }

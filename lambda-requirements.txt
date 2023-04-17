@@ -1,0 +1,10 @@
+async-timeout==4.0.2
+dataclasses-json==0.5.7
+marshmallow==3.19.0
+marshmallow-enum==1.5.1
+mypy-extensions==1.0.0
+packaging==23.0
+pydantic==1.10.7
+redis==4.5.4
+typing-extensions==4.5.0
+typing-inspect==0.8.0

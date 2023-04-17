@@ -2,8 +2,8 @@ from typing import Union, List, Dict, Any
 
 from fastapi import APIRouter
 
-from src.domain.quiz_manager import quiz_manager
-from src.domain.quiz_requests import QuizStartRequest, QuizJoinRequest, ScheduleQuizRequest, QuizStatusRequest, \
+from domain.quiz_manager import quiz_manager
+from domain.quiz_requests import QuizStartRequest, QuizJoinRequest, ScheduleQuizRequest, QuizStatusRequest, \
     StoreAnswerRequest
 
 route = APIRouter()

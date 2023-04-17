@@ -3,7 +3,7 @@ from typing import List
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 
-from src.domain.quiz_topic import QuizTopic
+from domain.quiz_topic import QuizTopic
 
 
 class QuizQuestionType(enum.Enum):

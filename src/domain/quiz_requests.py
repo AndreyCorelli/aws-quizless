@@ -41,3 +41,9 @@ class StoreAnswerRequest:
     user_token: str
     answer: List[int]
     question_index: int
+
+
+@dataclass_json
+@dataclass
+class QuizResultsRequest:
+    quiz_code: int

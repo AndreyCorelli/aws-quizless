@@ -3,9 +3,9 @@ import time
 from freezegun import freeze_time
 import pytest
 
-from src.domain.quiz_requests import QuizStartRequest, QuizJoinRequest, ScheduleQuizRequest, QuizStatusRequest, \
+from domain.quiz_requests import QuizStartRequest, QuizJoinRequest, ScheduleQuizRequest, QuizStatusRequest, \
     StoreAnswerRequest
-from src.tests.api.api_test_client import responses_client, HEADER_JSON_CONTENT_TYPE, start_quiz
+from tests.api.api_test_client import responses_client, HEADER_JSON_CONTENT_TYPE, start_quiz
 
 
 @pytest.mark.asyncio

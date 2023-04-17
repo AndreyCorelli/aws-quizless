@@ -2,11 +2,11 @@ import copy
 import math
 from typing import Tuple, List
 
-from src.domain.constants import QuizConstants
-from src.domain.quiz_data import QuizData
-from src.domain.quiz_state import QuizState, QuizPlayers, QuizStatusCode, QuizResults, QuizResultsPlayer
-from src.domain.repository.quiz_state_repository import QuizStateRepository
-from src.utils import get_utc_now_time
+from domain.constants import QuizConstants
+from domain.quiz_data import QuizData
+from domain.quiz_state import QuizState, QuizPlayers, QuizStatusCode, QuizResults, QuizResultsPlayer
+from domain.repository.quiz_state_repository import QuizStateRepository
+from utils import get_utc_now_time
 
 
 class QuizStateUpdateManager:

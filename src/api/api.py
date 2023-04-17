@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.api.endpoints import quiz
+from api.endpoints import quiz
 
 
 api_router = APIRouter()

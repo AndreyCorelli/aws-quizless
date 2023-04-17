@@ -4,10 +4,10 @@ from typing import Tuple
 
 import redis
 
-from src.domain.constants import QuizConstants
-from src.domain.quiz_state import QuizState, QuizStatusCode, QuizPlayers, QuizResults
-from src.settings import settings
-from src.utils import get_utc_now_time
+from domain.constants import QuizConstants
+from domain.quiz_state import QuizState, QuizStatusCode, QuizPlayers, QuizResults
+from settings import settings
+from utils import get_utc_now_time
 
 
 class QuizStateRepository:

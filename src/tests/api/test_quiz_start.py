@@ -1,7 +1,7 @@
 import pytest
 
-from src.domain.quiz_requests import QuizStartRequest
-from src.tests.api.api_test_client import responses_client, HEADER_JSON_CONTENT_TYPE
+from domain.quiz_requests import QuizStartRequest
+from tests.api.api_test_client import responses_client, HEADER_JSON_CONTENT_TYPE
 
 
 @pytest.mark.asyncio
