@@ -24,6 +24,7 @@ async def test_quiz_results():
     with freeze_time("2020-11-12 10:00:30.200"):
         res = await _check_state(second_user_token, quiz_code)
         assert res["state"]["status"] == "FINISHED"
+        assert res["state"]["updates_in_seconds"] > 60 * 10
 
         res_json = await responses_client.get(
             f"/api/quiz-results/{quiz_code}")

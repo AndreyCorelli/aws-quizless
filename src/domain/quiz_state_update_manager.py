@@ -1,4 +1,6 @@
 import copy
+import datetime
+
 import math
 from typing import Tuple, List
 
@@ -32,6 +34,7 @@ class QuizStateUpdateManager:
                 q_state.updates_in_seconds = math.ceil((q_state.expiration - tm).total_seconds())
             else:
                 q_state.status = QuizStatusCode.STARTED
+                q_state.expiration = tm + datetime.timedelta(seconds=QuizConstants.STARTED_QUIZ_EXPIRATION_SECONDS)
                 self._state_repo.set_state(q_state, QuizConstants.STARTED_QUIZ_EXPIRATION_SECONDS)
 
         self._check_and_update_running_quiz(q_state)
@@ -54,6 +57,7 @@ class QuizStateUpdateManager:
                 self._state_repo.set_state(q_state, QuizConstants.STARTED_QUIZ_EXPIRATION_SECONDS)
 
     def _finish_quiz(self, q_state: QuizState) -> None:
+        q_state.updates_in_seconds = math.ceil((q_state.expiration - get_utc_now_time()).total_seconds())
         if q_state.status == QuizStatusCode.FINISHED:
             return
         q_state.status = QuizStatusCode.FINISHED

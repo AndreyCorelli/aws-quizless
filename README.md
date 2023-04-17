@@ -4,8 +4,8 @@ For getting help with Terraform check [this page](readme-terraform.md).
 
 Setup virtual environment for the specific Python version (3.10):
 ```shell
-pyenv local 3.10
-virtualenv venv -p python3.10
+pyenv local 3.9
+virtualenv venv -p python3.9
 source venv/bin/activate
 ```
 

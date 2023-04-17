@@ -83,3 +83,7 @@ div.round-question div {
 #quiz-results-players {
   padding: 12px;
 }
+
+#timer-panel {
+  font-size: 200%;
+}

@@ -56,5 +56,5 @@ async def answer_quiz(request_data: StoreAnswerRequest) -> Dict[str, Any]:
 async def get_quiz_results(quiz_code: int) -> Dict[str, Any]:
     res = quiz_manager.get_quiz_results(quiz_code)
     if res:
-        res = {"quiz_results": res[0], "quiz_data": res[1]}
-    return res
+        return res.to_dict()
+    return {}
