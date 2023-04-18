@@ -63,25 +63,38 @@ function_by_request = {
 
 
 def lambda_handler(event: Dict[str, Any], context=None) -> Dict[str, Any]:
-    event_data = json.loads(event["body"])
-    if "requested_operation" not in event_data:
-        raise Exception("The payload should contain \"requested_operation\" field")
-    if event_data["requested_operation"] not in function_by_request:
-        raise Exception("The \"requested_operation\" value is incorrect. "
-                        "The correct options are: " +
-                        ", ".join(function_by_request.keys()))
+    try:
+        event_data = json.loads(event["body"])
+        if "requested_operation" not in event_data:
+            raise Exception("The payload should contain \"requested_operation\" field")
+        if event_data["requested_operation"] not in function_by_request:
+            raise Exception("The \"requested_operation\" value is incorrect. "
+                            "The correct options are: " +
+                            ", ".join(function_by_request.keys()))
 
-    processor = function_by_request[event_data["requested_operation"]]
-    response_data = processor(event_data.get("payload"))
-    return {
-        "statusCode": 200,
-        "body": response_data,
-        "headers": {
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Origin': settings.allowed_origins,
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-        },
-    }
+        processor = function_by_request[event_data["requested_operation"]]
+        response_data = processor(event_data.get("payload"))
+        return {
+            "statusCode": 200,
+            "body": response_data,
+            "headers": {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': settings.allowed_origins,
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            },
+        }
+    except Exception as e:
+        error_str = str(e)
+        body_str = json.dumps({"exception": error_str})
+        return {
+            "statusCode": 500,
+            "body": body_str,
+            "headers": {
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': settings.allowed_origins,
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            },
+        }
 
 
 if __name__ == "__main__":

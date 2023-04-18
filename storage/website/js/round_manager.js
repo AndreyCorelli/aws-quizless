@@ -44,9 +44,10 @@ class RoundPageManager {
     }
 
     postAnswer() {
-        const answer = this.answerBlock.readAnswerFromInputs(this.quizState);
+        let answer = this.answerBlock.readAnswerFromInputs(this.quizState);
         if (!answer)
             return;
+        answer = answer.map(x => parseInt(x));
         this.server.postAnswer(this.quizState.state.quiz_code,
             this.quizState.user.user_token, this.quizState.state.cur_question_index[0],
             answer, (data) => {
