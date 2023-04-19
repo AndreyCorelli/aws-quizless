@@ -1,6 +1,6 @@
 class Server {
     constructor() {
-        this.baseUrl = "https://wi4tgcnh0j.execute-api.eu-central-1.amazonaws.com/prod/quiz/";
+        this.baseUrl = "_SERVER_URL_";
     }
 
     async checkStatus(response) {

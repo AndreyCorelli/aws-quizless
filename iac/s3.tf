@@ -23,9 +23,27 @@ resource "aws_s3_bucket_policy" "quiz_bucket_policy" {
   policy = templatefile("s3-policy.json", {bucket_arn = aws_s3_bucket.quiz_bucket.arn})
 }
 
+locals {
+  server_js_path = "${path.module}/../website_src/js/server.js"
+  new_quiz_api_url = replace(
+    "${aws_api_gateway_deployment.quiz_api_deployment.invoke_url}/quiz/", "/", "\\/"
+  )
+}
+
+resource "null_resource" "modify_server_js_file" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  provisioner "local-exec" {
+    command = "sed -i 's/_SERVER_URL_/${local.new_quiz_api_url}/g' ${local.server_js_path}"
+  }
+  depends_on = [aws_api_gateway_deployment.quiz_api_deployment]
+}
+
+
 module "template_files_website" {
   source = "hashicorp/dir/template"
-  base_dir = "../storage/website"
+  base_dir = "../website_src"
 }
 
 resource "aws_s3_bucket_object" "quiz_bucket_site_files" {
@@ -37,6 +55,8 @@ resource "aws_s3_bucket_object" "quiz_bucket_site_files" {
   content      = each.value.content
   content_type = each.value.content_type
   etag         = each.value.digests.md5
+
+  depends_on   = [null_resource.modify_server_js_file]
 }
 
 module "template_files_data" {
